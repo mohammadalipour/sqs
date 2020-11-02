@@ -16,13 +16,14 @@ class CreateDevicesTable extends Migration
         Schema::create('devices', function (Blueprint $table) {
             $table->id();
             $table->string('app_id');
-            $table->string('app_version');
-            $table->string('token');
+            $table->string('app_version')->nullable();
+            $table->string('identifier');
+            $table->string('token')->unique();
             $table->enum('type', ['ios', 'android']);
-            $table->string('device_model');
-            $table->string('language');
-            $table->string('country');
-            $table->string('time_zone');
+            $table->string('device_model')->nullable();
+            $table->string('language')->nullable();
+            $table->string('country')->nullable();
+            $table->string('time_zone')->nullable();
             $table->timestamps();
             $table->index(['app_id']);
         });
