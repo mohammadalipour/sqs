@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Http\Requests\Api;
-
 
 use App\Contracts\Response\ResponseInterface;
 use App\Http\Controllers\Controller;
