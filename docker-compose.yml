@@ -56,6 +56,7 @@ services:
     networks:
       - app-network
 
+  #Scheduler Service
   scheduler:
     image: laravel-api
     command: ./bin/run-scheduler.sh
@@ -68,11 +69,21 @@ services:
     networks:
       - app-network
 
-#Docker Networks
-networks:
-  app-network:
-    driver: bridge
-#Volumes
-volumes:
-  dbdata:
-    driver: local
+  #Redis Service
+  redis:
+    image: redis:alpine
+    container_name: myapp-redis
+    command: redis-server --appendonly yes --requirepass "123qwe"
+    volumes:
+      - ./dockerFile/data/redis:/data
+    ports:
+      - "63790:6379"
+
+  #Docker Networks
+  networks:
+    app-network:
+      driver: bridge
+  #Volumes
+  volumes:
+    dbdata:
+      driver: local

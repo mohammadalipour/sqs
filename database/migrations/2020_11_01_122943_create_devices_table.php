@@ -15,9 +15,9 @@ class CreateDevicesTable extends Migration
     {
         Schema::create('devices', function (Blueprint $table) {
             $table->id();
-            $table->text('app_id');
-            $table->text('app_version');
-            $table->text('token');
+            $table->string('app_id');
+            $table->string('app_version');
+            $table->string('token');
             $table->enum('type', ['ios', 'android']);
             $table->string('device_model');
             $table->string('language');

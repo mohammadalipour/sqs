@@ -14,12 +14,11 @@ class ApplicationMessages extends Migration
     public function up()
     {
         Schema::create('application_messages', function (Blueprint $table) {
-            $table->id();
-            $table->text('app_id');
-            $table->unsignedInteger('message_id');
-            $table->enum('status', ['pending', 'failed', 'success']);
+            $table->bigIncrements('id');
+            $table->string('app_id')->index();
+            $table->unsignedBigInteger('message_id')->index();
+            $table->enum('status', ['pending', 'failed', 'success'])->index();
             $table->timestamps();
-            $table->index(['message_id', 'status']);
             $table->foreign('message_id')
                 ->references('id')
                 ->on('messages')
