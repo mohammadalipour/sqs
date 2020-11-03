@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Psr\SimpleCache\InvalidArgumentException;
+use Illuminate\Support\Facades\Cache;
 
 class QueueMessages implements ShouldQueue
 {
@@ -18,21 +18,26 @@ class QueueMessages implements ShouldQueue
     /**
      * @param MessageRepository $messageRepository
      * @return bool
-     * @throws InvalidArgumentException
      */
     public function handle(MessageRepository $messageRepository)
     {
         try {
-            do {
-                //Get all devices that message must be sending for it at this moment
-                $devices = $messageRepository->getDevices()->paginate(500);
+            //Fetch all Devices which would get messages received
+            $messages = $messageRepository->getDevices();
 
-                foreach ($devices as $device) {
-                    //it would cache information of devices on Redis to send those by NodeJs
-                    cache()->set($device->token, json_encode($device));
-                }
+            //Chunk data to cache on redis
+            $result = $messages->chunk(500, function ($devices) {
+                $key = 'message_' . $devices->first()->id;
+                Cache::store('redis')->rememberForever($key, function () use ($devices) {
+                    return $devices->toJson();
+                });
+            });
 
-            } while ($devices->lastItem() === $devices->total());
+            //Get Identity of message to update its status to success
+            $id = ($result) ? $messages->first()->id : 0;
+
+            //Update status of message to success
+            $messageRepository->setId($id)->setStatus('success');
 
             return true;
         } catch (Exception $exception) {
