@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Http\Repositories\DeviceRepository;
+use App\Http\Repositories\MessageRepository;
 use App\Http\Repositories\Repository;
 use Dotenv\Repository\RepositoryInterface;
 use Illuminate\Support\ServiceProvider;
@@ -17,6 +18,7 @@ class RepositoryServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(RepositoryInterface::class, Repository::class);
+        $this->app->bind( Repository::class,MessageRepository::class);
         $this->app->bind( Repository::class,DeviceRepository::class);
     }
 

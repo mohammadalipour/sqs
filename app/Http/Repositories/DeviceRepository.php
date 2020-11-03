@@ -21,6 +21,6 @@ class DeviceRepository extends Repository
 
     public function all(): Collection
     {
-        $this->model->all();
+        return $this->model->all();
     }
 }
