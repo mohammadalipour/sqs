@@ -20,7 +20,7 @@ class Repository implements RepositoryInterface
      */
     public function __construct(Model $model)
     {
-        $this->model = $model;
+        return $this->model = $model;
     }
 
     /**
