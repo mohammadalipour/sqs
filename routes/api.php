@@ -18,5 +18,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1'], function () {
     Route::post('device/register', [DeviceController::class, 'register']);
-    Route::post('test', [MessageController::class, 'index']);
 });
