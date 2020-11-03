@@ -6,7 +6,6 @@ use App\Http\Repositories\DeviceRepository;
 use App\Http\Requests\Api\ApiController;
 use App\Http\Requests\Api\V1\RegisterDeviceRequest;
 use App\Http\Resources\Api\V1\DeviceResource;
-use App\Jobs\QueueMessages;
 use Exception;
 
 class DeviceController extends ApiController
