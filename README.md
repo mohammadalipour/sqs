@@ -1,1 +1,1 @@
-**Teknasyon technical challenge**
+**sqs**
